@@ -50,14 +50,17 @@ const employeeSlice = createSlice({
       .addCase(fetchEmployees.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.selectedEmployee = null; // Clear selected employee when fetching all
       })
       .addCase(fetchEmployees.fulfilled, (state, action) => {
         state.loading = false;
         state.list = action.payload;
+        state.selectedEmployee = null; // Ensure selected employee is cleared
       })
       .addCase(fetchEmployees.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.selectedEmployee = null; // Clear even on error
       })
       // Cases for fetchEmployeeById
       .addCase(fetchEmployeeById.pending, (state) => {

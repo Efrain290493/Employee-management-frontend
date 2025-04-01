@@ -12,10 +12,19 @@ const EmployeeList = () => {
   const { list, selectedEmployee, loading, error } = useSelector((state) => state.employees);
   
   useEffect(() => {
-    if (!selectedEmployee && list.length === 0) {
+    // Only fetch on initial load or if both list is empty and no selected employee
+    if (list.length === 0 && !selectedEmployee) {
       dispatch(fetchEmployees());
     }
   }, [dispatch, selectedEmployee, list.length]);
+
+  // For debugging
+  useEffect(() => {
+    console.log("Current state:", { 
+      listLength: list.length, 
+      hasSelectedEmployee: !!selectedEmployee 
+    });
+  }, [list, selectedEmployee]);
 
   if (loading) {
     return (
@@ -29,6 +38,7 @@ const EmployeeList = () => {
     return <Alert severity="error">{error}</Alert>;
   }
   
+  // Display selected employee if available, otherwise show the full list
   const displayData = selectedEmployee ? [selectedEmployee] : list;
 
   if (displayData.length === 0) {
